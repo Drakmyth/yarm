@@ -1,0 +1,25 @@
+{
+  "name": "yarm",
+  "version": "1.0.0",
+  "description": "Yet Another Rom Manager",
+  "author": "Drakmyth <shaun.hamman@gmail.com>",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && electron ."
+  },
+  "devDependencies": {
+    "@types/node": "17.0.41",
+    "electron": "19.0.3",
+    "typescript": "4.7.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Drakmyth/yarm.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Drakmyth/yarm/issues"
+  }
+}
