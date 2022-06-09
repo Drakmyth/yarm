@@ -7,12 +7,14 @@
   "main": "./main.js",
   "private": true,
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && cp ./src/window/index.html ./out/window/index.html",
     "build:watch": "npm run build -- --watch",
     "start": "electron ./out/electron/main.js"
   },
   "devDependencies": {
     "@types/node": "17.0.41",
+    "@types/react": "^18.0.12",
+    "@types/react-dom": "^18.0.5",
     "electron": "19.0.3",
     "typescript": "4.7.3"
   },

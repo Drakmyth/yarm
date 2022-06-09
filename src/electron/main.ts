@@ -7,7 +7,7 @@ const openWindow = (): void => {
   });
 
   window.setMenuBarVisibility(false);
-  window.loadURL(`http://example.com`);
+  window.loadFile(`${__dirname}/../window/index.html`);
 }
 
 app.on(`ready`, openWindow);
