@@ -7,14 +7,22 @@
   "main": "./main.js",
   "private": true,
   "scripts": {
-    "build": "tsc",
+    "build": "npm run build:electron && npm run build:website",
+    "build:electron": "webpack --config webpack.electron.config.js",
+    "build:website": "webpack --config webpack.website.config.js",
     "build:watch": "npm run build -- --watch",
     "start": "electron ./out/electron/main.js"
   },
   "devDependencies": {
     "@types/node": "17.0.41",
+    "@types/react": "^18.0.12",
+    "@types/react-dom": "^18.0.5",
     "electron": "19.0.3",
-    "typescript": "4.7.3"
+    "html-webpack-plugin": "^5.5.0",
+    "ts-loader": "^9.3.0",
+    "typescript": "4.7.3",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.9.2"
   },
   "repository": {
     "type": "git",
@@ -22,5 +30,9 @@
   },
   "bugs": {
     "url": "https://github.com/Drakmyth/yarm/issues"
+  },
+  "dependencies": {
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0"
   }
 }
