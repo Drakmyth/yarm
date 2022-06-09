@@ -4,11 +4,12 @@
   "description": "Yet Another Rom Manager",
   "author": "Drakmyth <shaun.hamman@gmail.com>",
   "license": "MIT",
-  "main": "./dist/index.js",
+  "main": "./main.js",
   "private": true,
   "scripts": {
     "build": "tsc",
-    "start": "npm run build && electron ."
+    "build:watch": "npm run build -- --watch",
+    "start": "electron ./out/electron/main.js"
   },
   "devDependencies": {
     "@types/node": "17.0.41",
