@@ -2,15 +2,38 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-module.exports = {
+const outDir = "./out";
+
+const electronMainConfig = {
     mode: "development",
-    entry: {
-        electron: "./src/electron/main.ts",
-        website: "./src/website/App.tsx"
-    },
+    entry: "./src/electron/main.ts",
     output: {
-        path: path.resolve(__dirname, "./out"),
-        filename: "[name].bundle.js"
+        path: path.resolve(__dirname, outDir),
+        filename: "electron.bundle.js"
+    },
+    module: {
+        rules: [
+            {
+                test: /\.tsx?$/,
+                loader: "ts-loader"
+            }
+        ]
+    },
+    resolve: {
+        extensions: [".ts", ".tsx", ".js"]
+    },
+    target: "electron-main",
+    node: {
+        __dirname: false
+    }
+};
+
+const electronRendererConfig = {
+    mode: "development",
+    entry: "./src/website/App.tsx",
+    output: {
+        path: path.resolve(__dirname, outDir),
+        filename: "website.bundle.js"
     },
     module: {
         rules: [
@@ -27,12 +50,9 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: "index.html",
             template: "./src/website/index.html",
-            inject: "body",
-            chunks: ["website"]
+            inject: "body"
         })
-    ],
-    target: "electron-main",
-    node: {
-        __dirname: false
-    }
+    ]
 };
+
+module.exports = [electronMainConfig, electronRendererConfig];
