@@ -4,7 +4,7 @@
   "description": "Yet Another Rom Manager",
   "author": "Drakmyth <shaun.hamman@gmail.com>",
   "license": "MIT",
-  "main": "./main.js",
+  "main": "./electron.bundle.js",
   "private": true,
   "scripts": {
     "build": "webpack --config webpack.config.js",
