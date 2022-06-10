@@ -1,7 +1,7 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 
-const app = document.getElementById(`app`);
+const app = document.getElementById("app");
 
 const Emphasis: React.FC<React.PropsWithChildren> = (props) => <em>{props.children}</em>;
 
@@ -11,4 +11,5 @@ const App = () => (
     </div>
 );
 
-ReactDOM.render(<App />, app);
+const root = createRoot(app!);
+root.render(<App />);
