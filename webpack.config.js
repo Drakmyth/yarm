@@ -6,7 +6,7 @@ module.exports = {
     mode: "development",
     entry: {
         electron: "./src/electron/main.ts",
-        website: "./src/website/index.tsx"
+        website: "./src/website/App.tsx"
     },
     output: {
         path: path.resolve(__dirname, "./out"),
