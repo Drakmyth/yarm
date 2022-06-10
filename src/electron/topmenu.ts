@@ -12,7 +12,7 @@ const template: Array<Electron.MenuItemConstructorOptions> = [
             { label: "Save", accelerator: "CmdOrCtrl+S" },
             { label: "Save As...", accelerator: "CmdOrCtrl+Shift+S" },
             { type: "separator" },
-            { label: "Preferences...", accelerator: "CmdOrCtrl+I" },
+            { label: "Preferences..." },
             { type: "separator" },
             { role: "quit" }
         ]
