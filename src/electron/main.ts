@@ -8,10 +8,11 @@ const openWindow = (): void => {
     const window = new BrowserWindow({
         width: 800,
         height: 600,
-        title: "Yet Another Rom Manager"
+        title: "Yet Another Rom Manager",
+        titleBarStyle: "hidden"
     });
 
-    window.setMenu(TopMenu);
+    // window.setMenu(TopMenu);
     window.loadFile(`${__dirname}/index.html`);
 };
 
