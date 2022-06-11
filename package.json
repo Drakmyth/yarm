@@ -4,19 +4,39 @@
   "description": "Yet Another Rom Manager",
   "author": "Drakmyth <shaun.hamman@gmail.com>",
   "license": "MIT",
-  "main": "./electron.bundle.js",
+  "main": "./out/electron.bundle.js",
   "private": true,
   "scripts": {
     "build": "webpack --config webpack.config.js",
     "build:watch": "npm run build -- --watch",
     "start": "electron ./out/electron.bundle.js",
-    "start:watch": "electronmon ./out/electron.bundle.js"
+    "start:watch": "electronmon ./out/electron.bundle.js",
+    "package": "npm run build && electron-builder"
+  },
+  "build": {
+    "appId": "com.drakmyth.yarm",
+    "files": "./out/*",
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis"
+        },
+        {
+          "target": "portable"
+        }
+      ]
+    }
   },
   "devDependencies": {
     "@types/node": "^17.0.41",
     "@types/react": "^18.0.12",
     "@types/react-dom": "^18.0.5",
     "electron": "^19.0.3",
+    "electron-builder": "^23.0.3",
     "electronmon": "^2.0.2",
     "html-webpack-plugin": "^5.5.0",
     "ts-loader": "^9.3.0",
