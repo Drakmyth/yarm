@@ -1,4 +1,21 @@
 #titlebar {
     background-color: #f0f0f0;
-    height: 40px;
+    height: 30px;
+    border-bottom: 1px solid #d0d0d0;
+    -webkit-app-region: drag;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+#app {
+    height: calc(100vh - 30px);
+    width: 100vw;
+    overflow: auto;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
 }
