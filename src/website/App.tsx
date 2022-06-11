@@ -1,15 +1,20 @@
 import * as React from "react";
 import { createRoot } from "react-dom/client";
+import "./App.css";
 
+const titlebar = document.getElementById("titlebar");
 const app = document.getElementById("app");
 
-const Emphasis: React.FC<React.PropsWithChildren> = (props) => <em>{props.children}</em>;
+const Titlebar = () => <div>Titlebar</div>;
 
 const App = () => (
     <div>
-        Hello, <Emphasis>world</Emphasis>
+        Hello, <em>world!!!</em>
     </div>
 );
 
-const root = createRoot(app!);
-root.render(<App />);
+const titlebarRoot = createRoot(titlebar!);
+const appRoot = createRoot(app!);
+
+titlebarRoot.render(<Titlebar />);
+appRoot.render(<App />);
