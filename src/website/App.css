@@ -3,8 +3,11 @@
     height: 30px;
     border-bottom: 1px solid #d0d0d0;
     -webkit-app-region: drag;
-    -webkit-user-select: none;
     user-select: none;
+}
+
+#titlebar>button {
+    -webkit-app-region: no-drag;
 }
 
 #app {
@@ -18,4 +21,12 @@ body {
     height: 100vh;
     margin: 0;
     overflow: hidden;
+}
+
+.szh-menu__item {
+    justify-content: space-between;
+}
+
+.szh-menu__item.szh-menu__item--submenu::after {
+    content: ">";
 }

@@ -8,6 +8,7 @@ const openWindow = (): void => {
     const window = new BrowserWindow({
         width: 800,
         height: 600,
+        frame: false,
         title: "Yet Another Rom Manager",
         titleBarStyle: "hidden"
     });
