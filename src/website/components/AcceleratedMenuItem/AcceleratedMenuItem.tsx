@@ -2,23 +2,24 @@ import { MenuItem } from "@szhsin/react-menu";
 import React from "react";
 import "./AcceleratedMenuItem.css";
 
-interface AcceleratedMenuItemProps {
-    ctrl?: boolean;
-    shift?: boolean;
-    alt?: boolean;
-    hotkey: string;
-    children?: string;
+class OptionalProps {
+    ctrl?: boolean = false;
+    shift?: boolean = false;
+    alt?: boolean = false;
 }
 
-export const AcceleratedMenuItem = ({
-    ctrl = false,
-    shift = false,
-    alt = false,
-    hotkey = "F",
-    children = ""
-}: AcceleratedMenuItemProps) => (
-    <MenuItem>
-        <span>{children}</span>
-        <span className="accelerator">{`${ctrl ? "Ctrl+" : ""}${shift ? "Shift+" : ""}${alt ? "Alt+" : ""}${hotkey}`}</span>
-    </MenuItem>
-);
+interface AcceleratedMenuItemProps extends OptionalProps {
+    hotkey: string;
+    label: string;
+}
+
+export const AcceleratedMenuItem = (p: AcceleratedMenuItemProps) => {
+    const props = { ...new OptionalProps(), ...p };
+
+    return (
+        <MenuItem>
+            <span>{props.label}</span>
+            <span className="accelerator">{`${props.ctrl ? "Ctrl+" : ""}${props.shift ? "Shift+" : ""}${props.alt ? "Alt+" : ""}${props.hotkey}`}</span>
+        </MenuItem>
+    );
+};
