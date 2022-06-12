@@ -5,6 +5,13 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const outDir = "./out";
 
+const cleanConfig = {
+    output: {
+        path: path.resolve(__dirname, outDir),
+        clean: true
+    }
+};
+
 const electronMainConfig = {
     mode: "development",
     entry: "./src/electron/main.ts",
@@ -63,4 +70,4 @@ const electronRendererConfig = {
     ]
 };
 
-module.exports = [electronMainConfig, electronRendererConfig];
+module.exports = [cleanConfig, electronMainConfig, electronRendererConfig];
