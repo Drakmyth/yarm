@@ -4,6 +4,8 @@
     border-bottom: 1px solid #d0d0d0;
     -webkit-app-region: drag;
     user-select: none;
+    display: flex;
+    flex-direction: row;
 }
 
 #titlebar>button {
@@ -30,4 +32,14 @@ body {
 .szh-menu__item.szh-menu__item--submenu::after {
     content: "\f105";
     font: normal normal normal 14px/1 FontAwesome;
+}
+
+.szh-menu__item.szh-menu__item--type-checkbox {
+    padding-left: 1.5rem;
+}
+
+.szh-menu__item.szh-menu__item--type-checkbox.szh-menu__item--checked::before {
+    content: "\f00c";
+    font: normal normal normal 14px/1 FontAwesome;
+    left: 0.45rem;
 }
