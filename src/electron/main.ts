@@ -1,5 +1,4 @@
 import { app, BrowserWindow } from "electron";
-import TopMenu from "./topmenu";
 
 // TODO: Disable this only in development builds
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "true";
@@ -13,7 +12,6 @@ const openWindow = (): void => {
         titleBarStyle: "hidden"
     });
 
-    // window.setMenu(TopMenu);
     window.loadFile(`${__dirname}/index.html`);
 };
 
