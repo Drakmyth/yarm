@@ -4,27 +4,47 @@ import "@szhsin/react-menu/dist/transitions/slide.css";
 import React from "react";
 import { createRoot } from "react-dom/client";
 import "./App.css";
-import "@fortawesome/fontawesome-free/css/all.css"
-import "@fortawesome/fontawesome-free/js/all.js"
+import "@fortawesome/fontawesome-free/css/all.css";
+import "@fortawesome/fontawesome-free/js/all.js";
 import { AcceleratedMenuItem } from "./components/AcceleratedMenuItem/AcceleratedMenuItem";
 
 const titlebar = document.getElementById("titlebar");
 const app = document.getElementById("app");
 
 const Titlebar = () => (
-    <Menu menuButton={<MenuButton>File</MenuButton>}>
-        <AcceleratedMenuItem ctrl hotkey="N">New...</AcceleratedMenuItem>
-        <AcceleratedMenuItem ctrl hotkey="O">Open...</AcceleratedMenuItem>
-        <SubMenu label="Open Recent"></SubMenu>
-        <AcceleratedMenuItem ctrl hotkey="W">Close</AcceleratedMenuItem>
-        <MenuDivider />
-        <AcceleratedMenuItem ctrl hotkey="S">Save</AcceleratedMenuItem>
-        <AcceleratedMenuItem ctrl shift hotkey="S">Save As...</AcceleratedMenuItem>
-        <MenuDivider />
-        <MenuItem>Preferences...</MenuItem>
-        <MenuDivider />
-        <AcceleratedMenuItem ctrl hotkey="Q">Exit</AcceleratedMenuItem>
-    </Menu>
+    <>
+        <Menu menuButton={<MenuButton>File</MenuButton>}>
+            <AcceleratedMenuItem label="New..." ctrl hotkey="N" />
+            <AcceleratedMenuItem label="Open..." ctrl hotkey="O" />
+            <SubMenu label="Open Recent"></SubMenu>
+            <AcceleratedMenuItem label="Close" ctrl hotkey="W" />
+            <MenuDivider />
+            <AcceleratedMenuItem label="Save" ctrl hotkey="S" />
+            <AcceleratedMenuItem label="Save As..." ctrl shift hotkey="S" />
+            <MenuDivider />
+            <MenuItem>Preferences...</MenuItem>
+            <MenuDivider />
+            <AcceleratedMenuItem label="Exit" ctrl hotkey="Q" />
+        </Menu>
+        <Menu menuButton={<MenuButton>View</MenuButton>}>
+            <MenuItem>Language</MenuItem>
+            <MenuDivider />
+            <MenuItem type="checkbox" checked={true}>Show Toolbar</MenuItem>
+            <MenuDivider />
+            <MenuItem>Configure Columns...</MenuItem>
+        </Menu>
+        <Menu menuButton={<MenuButton>Help</MenuButton>}>
+            <MenuItem>Check for Updates...</MenuItem>
+            <MenuItem>Release Notes</MenuItem>
+            <MenuDivider />
+            <MenuItem>Visit GitHub</MenuItem>
+            <MenuItem>Report Issue</MenuItem>
+            <MenuDivider />
+            <AcceleratedMenuItem label="Show Dev Tools" ctrl shift hotkey="I" />
+            <MenuDivider />
+            <MenuItem>About</MenuItem>
+        </Menu>
+    </>
 );
 
 const App = () => (
