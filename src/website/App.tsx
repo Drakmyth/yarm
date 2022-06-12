@@ -1,26 +1,29 @@
 import { Menu, MenuButton, MenuDivider, MenuItem, SubMenu } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
 import "@szhsin/react-menu/dist/transitions/slide.css";
-import * as React from "react";
+import React from "react";
 import { createRoot } from "react-dom/client";
 import "./App.css";
+import "@fortawesome/fontawesome-free/css/all.css"
+import "@fortawesome/fontawesome-free/js/all.js"
+import { AcceleratedMenuItem } from "./components/AcceleratedMenuItem/AcceleratedMenuItem";
 
 const titlebar = document.getElementById("titlebar");
 const app = document.getElementById("app");
 
 const Titlebar = () => (
     <Menu menuButton={<MenuButton>File</MenuButton>}>
-        <MenuItem><span>New...</span><span>Ctrl+N</span></MenuItem>
-        <MenuItem>Open...</MenuItem>
+        <AcceleratedMenuItem ctrl hotkey="N">New...</AcceleratedMenuItem>
+        <AcceleratedMenuItem ctrl hotkey="O">Open...</AcceleratedMenuItem>
         <SubMenu label="Open Recent"></SubMenu>
-        <MenuItem>Close</MenuItem>
+        <AcceleratedMenuItem ctrl hotkey="W">Close</AcceleratedMenuItem>
         <MenuDivider />
-        <MenuItem>Save</MenuItem>
-        <MenuItem>Save As...</MenuItem>
+        <AcceleratedMenuItem ctrl hotkey="S">Save</AcceleratedMenuItem>
+        <AcceleratedMenuItem ctrl shift hotkey="S">Save As...</AcceleratedMenuItem>
         <MenuDivider />
         <MenuItem>Preferences...</MenuItem>
         <MenuDivider />
-        <MenuItem><span>Exit</span><span>Ctrl+Q</span></MenuItem>
+        <AcceleratedMenuItem ctrl hotkey="Q">Exit</AcceleratedMenuItem>
     </Menu>
 );
 

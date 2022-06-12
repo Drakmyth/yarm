@@ -28,5 +28,6 @@ body {
 }
 
 .szh-menu__item.szh-menu__item--submenu::after {
-    content: ">";
+    content: "\f105";
+    font: normal normal normal 14px/1 FontAwesome;
 }
