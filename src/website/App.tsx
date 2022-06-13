@@ -7,6 +7,7 @@ import "./App.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 import { AcceleratedMenuItem } from "./components/AcceleratedMenuItem/AcceleratedMenuItem";
+import "../electron/preloadApi";
 
 const titlebar = document.getElementById("titlebar");
 const app = document.getElementById("app");
@@ -26,6 +27,11 @@ const Titlebar = () => {
     const onMenuHover = (ref: MutableRefObject<null>) => {
         if (openMenu === undefined) return;
         setOpenMenu(ref);
+    }
+
+    const onClick_Exit = () => {
+        console.log("Exit");
+        window.api.exit();
     }
 
     return (
@@ -54,7 +60,7 @@ const Titlebar = () => {
                     <MenuDivider />
                     <MenuItem>Preferences...</MenuItem>
                     <MenuDivider />
-                    <AcceleratedMenuItem label="Exit" ctrl hotkey="Q" />
+                    <AcceleratedMenuItem label="Exit" ctrl hotkey="Q" onClick={onClick_Exit} />
                 </ControlledMenu>
                 <MenuButton
                     ref={viewRef}
