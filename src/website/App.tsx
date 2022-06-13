@@ -115,7 +115,7 @@ const Titlebar = () => {
                 <MenuButton className="window-control">
                     <i className="fa-regular fa-square"></i>
                 </MenuButton>
-                <MenuButton className="window-control close-button">
+                <MenuButton className="window-control close-button" onClick={onClick_Exit}>
                     <i className="fa-solid fa-xmark"></i>
                 </MenuButton>
             </div>
