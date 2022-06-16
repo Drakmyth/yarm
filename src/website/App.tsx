@@ -7,7 +7,7 @@ import "./App.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 import { AcceleratedMenuItem } from "./components/AcceleratedMenuItem/AcceleratedMenuItem";
-import "../electron/preloadApi";
+import "../api/IPCApi";
 
 const titlebar = document.getElementById("titlebar");
 const app = document.getElementById("app");
@@ -123,9 +123,14 @@ const Titlebar = () => {
     );
 };
 
+const onOpenDatClick = async () => {
+    const datData = await window.api.openDatFile();
+    console.log(datData);
+}
+
 const App = () => (
     <div>
-        Hello, <em>world!!!</em>
+        <button onClick={onOpenDatClick}>Open DAT</button>
     </div>
 );
 

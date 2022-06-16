@@ -1,10 +1,9 @@
 import { ipcRenderer, contextBridge } from "electron";
-import { PreloadAPI } from "./preloadApi";
+import { IPCApi } from "../api/IPCApi";
 
-const api: PreloadAPI = {
-    exit: () => {
-        ipcRenderer.send("exit");
-    }
+const api: IPCApi = {
+    exit: () => ipcRenderer.send("exit"),
+    openDatFile: () => ipcRenderer.invoke("openDatFile")
 };
 
 contextBridge.exposeInMainWorld("api", api);

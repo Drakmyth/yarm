@@ -1,5 +1,6 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, dialog } from "electron";
 import path from "path";
+import { parseDat } from "./DatParser";
 
 // Only disable security warning in development
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = `${process.env.NODE_ENV !== "production"}`;
@@ -92,6 +93,12 @@ const openWindow = (): void => {
     ipcMain.on("exit", () => {
         window.close();
     });
+
+    ipcMain.handle("openDatFile", async () => {
+        const dialogReturn = await dialog.showOpenDialog(window)
+        const datData = await parseDat(dialogReturn.filePaths[0]);
+        return datData;
+    })
 
     window.webContents.openDevTools();
 };
