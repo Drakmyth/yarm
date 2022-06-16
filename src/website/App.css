@@ -1,0 +1,88 @@
+#titlebar {
+    background-color: #3C3C3C;
+    height: 30px;
+    border-bottom: 1px solid #d0d0d0;
+    -webkit-app-region: drag;
+    user-select: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.titlebar-menus {
+    display: flex;
+    flex-direction: row;
+    padding-left: 6px;
+}
+
+.titlebar-title {
+    color: #CCCCCC;
+    font-family: sans-serif;
+    font-size: 14px;
+    align-self: center;
+}
+
+.titlebar-controls {
+    display: flex;
+    flex-direction: row;
+}
+
+.szh-menu-button {
+    -webkit-app-region: no-drag;
+    border: 0;
+    color: #CCCCCC;
+    background-color: #3C3C3C;
+}
+
+.szh-menu-button.szh-menu-button--open {
+    background-color: #454646;
+}
+
+.szh-menu-button:hover {
+    background-color: #454646;
+}
+
+.window-control {
+    height: 30px;
+    width: 40px;
+}
+
+.window-control:hover {
+    background-color: #454646;
+}
+
+.window-control.close-button:hover {
+    background-color: #f00000;
+}
+
+#app {
+    height: calc(100vh - 30px);
+    width: 100vw;
+    overflow: auto;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+.szh-menu__item {
+    justify-content: space-between;
+}
+
+.szh-menu__item.szh-menu__item--submenu::after {
+    content: "\f105";
+    font: normal normal normal 14px/1 FontAwesome;
+}
+
+.szh-menu__item.szh-menu__item--type-checkbox {
+    padding-left: 1.5rem;
+}
+
+.szh-menu__item.szh-menu__item--type-checkbox.szh-menu__item--checked::before {
+    content: "\f00c";
+    font: normal normal normal 14px/1 FontAwesome;
+    left: 0.45rem;
+}
