@@ -1,4 +1,4 @@
-import { ControlledMenu, MenuButton, MenuDivider, MenuItem, SubMenu } from "@szhsin/react-menu";
+import { ControlledMenu, MenuButton, MenuDivider, MenuItem } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
 import "@szhsin/react-menu/dist/transitions/slide.css";
 import React, { MutableRefObject, useRef, useState } from "react";
@@ -8,6 +8,11 @@ import { AcceleratedMenuItem } from "./components/AcceleratedMenuItem/Accelerate
 import "../api/IPCApi";
 import { TreeItem, TreeView } from "./components/TreeView/TreeView";
 import { TreeViewItem } from "./components/TreeViewItem/TreeViewItem";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMinus, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faSquare } from "@fortawesome/free-regular-svg-icons";
+import { CheckboxMenuItem } from "./components/CheckboxMenuItem/CheckboxMenuItem";
+import { FixedSubMenu } from "./components/FixedSubMenu/FixedSubMenu";
 
 const titlebar = document.getElementById("titlebar");
 const app = document.getElementById("app");
@@ -52,7 +57,7 @@ const Titlebar = () => {
                 >
                     <AcceleratedMenuItem label="New..." ctrl hotkey="N" />
                     <AcceleratedMenuItem label="Open..." ctrl hotkey="O" />
-                    <SubMenu label="Open Recent"></SubMenu>
+                    <FixedSubMenu label="Open Recent"></FixedSubMenu>
                     <AcceleratedMenuItem label="Close" ctrl hotkey="W" />
                     <MenuDivider />
                     <AcceleratedMenuItem label="Save" ctrl hotkey="S" />
@@ -77,9 +82,7 @@ const Titlebar = () => {
                 >
                     <MenuItem>Language</MenuItem>
                     <MenuDivider />
-                    <MenuItem type="checkbox" checked={true}>
-                        Show Toolbar
-                    </MenuItem>
+                    <CheckboxMenuItem checked={true}>Show Toolbar</CheckboxMenuItem>
                     <MenuDivider />
                     <MenuItem>Configure Columns...</MenuItem>
                 </ControlledMenu>
@@ -110,13 +113,13 @@ const Titlebar = () => {
             <div className="titlebar-title">Yarm</div>
             <div className="titlebar-controls">
                 <MenuButton className="window-control">
-                    <i className="fa-solid fa-minus"></i>
+                    <FontAwesomeIcon icon={faMinus} />
                 </MenuButton>
                 <MenuButton className="window-control">
-                    <i className="fa-regular fa-square"></i>
+                    <FontAwesomeIcon icon={faSquare} />
                 </MenuButton>
                 <MenuButton className="window-control close-button" onClick={onClick_Exit}>
-                    <i className="fa-solid fa-xmark"></i>
+                    <FontAwesomeIcon icon={faXmark} />
                 </MenuButton>
             </div>
         </>
@@ -127,16 +130,16 @@ const App = () => {
     const [treeData, setTreeData] = useState<TreeItem[]>([]);
 
     const onOpenDatClick = async () => {
-            const datData = await window.api.openDatFile();
-            const root: TreeItem = {
-                label: datData.header ? datData.header.name : "NoHeader",
-                children: datData.game.map((g, i) => {
-                    return {
-                        label: g.name
-                    };
-                })
-            };
-            setTreeData([root]);
+        const datData = await window.api.openDatFile();
+        const root: TreeItem = {
+            label: datData.header ? datData.header.name : "NoHeader",
+            children: datData.game.map((g, i) => {
+                return {
+                    label: g.name
+                };
+            })
+        };
+        setTreeData([root]);
     };
 
     // const treeData: TreeItem[] = [

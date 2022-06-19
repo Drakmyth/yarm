@@ -1,0 +1,17 @@
+.szh-menu__item.szh-menu__item--type-checkbox {
+    justify-content: flex-start;
+    padding-left: 0.4rem;
+}
+
+.szh-menu__item.szh-menu__item--type-checkbox > svg {
+    visibility: hidden;
+    padding-right: 0.2rem;
+}
+
+.szh-menu__item.szh-menu__item--type-checkbox.szh-menu__item--checked > svg {
+    visibility: visible;
+}
+
+.szh-menu__item.szh-menu__item--type-checkbox.szh-menu__item--checked::before {
+    content: "";
+}

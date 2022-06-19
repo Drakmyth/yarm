@@ -1,0 +1,7 @@
+.szh-menu__submenu > .szh-menu__item {
+    padding-right: 1.5rem;
+}
+
+.szh-menu__item.szh-menu__item--submenu::after {
+    content: "";
+}
