@@ -4,10 +4,10 @@ import "@szhsin/react-menu/dist/transitions/slide.css";
 import React, { MutableRefObject, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import "./App.css";
-import "@fortawesome/fontawesome-free/css/all.css";
-import "@fortawesome/fontawesome-free/js/all.js";
 import { AcceleratedMenuItem } from "./components/AcceleratedMenuItem/AcceleratedMenuItem";
 import "../api/IPCApi";
+import { TreeItem, TreeView } from "./components/TreeView/TreeView";
+import { TreeViewItem } from "./components/TreeViewItem/TreeViewItem";
 
 const titlebar = document.getElementById("titlebar");
 const app = document.getElementById("app");
@@ -22,17 +22,17 @@ const Titlebar = () => {
 
     const onMenuClick = (ref: MutableRefObject<null>) => {
         if (!skipOpen.current) setOpenMenu(ref);
-    }
+    };
 
     const onMenuHover = (ref: MutableRefObject<null>) => {
         if (openMenu === undefined) return;
         setOpenMenu(ref);
-    }
+    };
 
     const onClick_Exit = () => {
         console.log("Exit");
         window.api.exit();
-    }
+    };
 
     return (
         <>
@@ -123,16 +123,64 @@ const Titlebar = () => {
     );
 };
 
-const onOpenDatClick = async () => {
-    const datData = await window.api.openDatFile();
-    console.log(datData);
-}
+const App = () => {
+    const [treeData, setTreeData] = useState<TreeItem[]>([]);
 
-const App = () => (
-    <div>
-        <button onClick={onOpenDatClick}>Open DAT</button>
-    </div>
-);
+    const onOpenDatClick = async () => {
+            const datData = await window.api.openDatFile();
+            const root: TreeItem = {
+                label: datData.header ? datData.header.name : "NoHeader",
+                children: datData.game.map((g, i) => {
+                    return {
+                        label: g.name
+                    };
+                })
+            };
+            setTreeData([root]);
+    };
+
+    // const treeData: TreeItem[] = [
+    //     { label: "Testing0" },
+    //     {
+    //         label: "Testing1",
+    //         children: [
+    //             { label: "Testing1-0" },
+    //             {
+    //                 label: "Testing1-1",
+    //                 children: [{ label: "Testing1-1-0" }, { label: "Testing1-1-1" }]
+    //             },
+    //             { label: "Testing1-2" },
+    //             { label: "Testing1-3" }
+    //         ]
+    //     },
+    //     { label: "Testing2" },
+    //     { label: "Testing3" }
+    // ];
+
+    return (
+        <>
+            <button onClick={onOpenDatClick}>Open DAT</button>
+            <TreeView>
+                <TreeViewItem label="Testing0"></TreeViewItem>
+                <TreeViewItem label="Testing1">
+                    <TreeViewItem label="Testing1-0"></TreeViewItem>
+                    <TreeViewItem label="Testing1-1">
+                        <TreeViewItem label="Testing1-1-0"></TreeViewItem>
+                        <TreeViewItem label="Testing1-1-1"></TreeViewItem>
+                    </TreeViewItem>
+                    <TreeViewItem label="Testing1-2"></TreeViewItem>
+                    <TreeViewItem label="Testing1-3"></TreeViewItem>
+                </TreeViewItem>
+                <TreeViewItem label="Testing2"></TreeViewItem>
+                <TreeViewItem label="Testing3"></TreeViewItem>
+            </TreeView>
+            <br />
+            <br />
+            <br />
+            {/* <TreeView treeData={treeData} /> */}
+        </>
+    );
+};
 
 const titlebarRoot = createRoot(titlebar!);
 const appRoot = createRoot(app!);
