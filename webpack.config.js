@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const devMode = process.env.NODE_ENV !== "production";
+const devtool = devMode ? "inline-source-map" : false;
 
 const mode = devMode ? "development" : "production";
 const outPath = path.resolve(__dirname, "./out");
@@ -29,7 +30,8 @@ const electronMainConfig = {
     },
     node: {
         __dirname: false
-    }
+    },
+    devtool: devtool
 };
 
 const electronPreloadConfig = {
@@ -45,7 +47,8 @@ const electronPreloadConfig = {
     },
     resolve: {
         extensions: [...tsExtensions]
-    }
+    },
+    devtool: devtool
 };
 
 const electronRendererConfig = {
@@ -61,16 +64,14 @@ const electronRendererConfig = {
             tsLoader,
             {
                 test: /\.css$/i,
-                use: [
-                    devMode ? "style-loader" : MiniCssExtractPlugin.loader,
-                    "css-loader"
-                ]
+                use: [devMode ? "style-loader" : MiniCssExtractPlugin.loader, "css-loader"]
             }
         ]
     },
     resolve: {
         extensions: [...tsExtensions]
     },
+    devtool: devtool,
     plugins: [
         new HtmlWebpackPlugin({
             filename: "index.html",
@@ -78,7 +79,9 @@ const electronRendererConfig = {
             inject: "body"
         })
     ].concat(
-        devMode ? [] : [
+        devMode
+            ? []
+            : [
                   new MiniCssExtractPlugin({
                       filename: "[name].[contenthash].css"
                   })
