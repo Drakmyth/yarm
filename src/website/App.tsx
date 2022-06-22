@@ -6,8 +6,7 @@ import { createRoot } from "react-dom/client";
 import "./App.css";
 import { AcceleratedMenuItem } from "./components/AcceleratedMenuItem/AcceleratedMenuItem";
 import "../api/IPCApi";
-import { TreeItem, TreeView } from "./components/TreeView/TreeView";
-import { TreeViewItem } from "./components/TreeViewItem/TreeViewItem";
+import { TreeNode, TreeView } from "./components/TreeView/TreeView";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faSquare } from "@fortawesome/free-regular-svg-icons";
@@ -127,22 +126,26 @@ const Titlebar = () => {
 };
 
 const App = () => {
-    const [treeData, setTreeData] = useState<TreeItem[]>([]);
+    const [treeData, setTreeData] = useState<TreeNode[]>([]);
 
     const onOpenDatClick = async () => {
+        console.log("Opening DAT File Dialog...");
         const datData = await window.api.openDatFile();
-        const root: TreeItem = {
+        console.log("DAT File Loaded");
+        const root: TreeNode = {
             label: datData.header ? datData.header.name : "NoHeader",
-            children: datData.game.map((g, i) => {
+            children: datData.game.map((g) => {
                 return {
                     label: g.name
                 };
             })
         };
+        console.log("Persisting...");
         setTreeData([root]);
+        console.log("Persistance complete");
     };
 
-    // const treeData: TreeItem[] = [
+    // const treeData: TreeNode[] = [
     //     { label: "Testing0" },
     //     {
     //         label: "Testing1",
@@ -163,24 +166,7 @@ const App = () => {
     return (
         <>
             <button onClick={onOpenDatClick}>Open DAT</button>
-            <TreeView>
-                <TreeViewItem label="Testing0"></TreeViewItem>
-                <TreeViewItem label="Testing1">
-                    <TreeViewItem label="Testing1-0"></TreeViewItem>
-                    <TreeViewItem label="Testing1-1">
-                        <TreeViewItem label="Testing1-1-0"></TreeViewItem>
-                        <TreeViewItem label="Testing1-1-1"></TreeViewItem>
-                    </TreeViewItem>
-                    <TreeViewItem label="Testing1-2"></TreeViewItem>
-                    <TreeViewItem label="Testing1-3"></TreeViewItem>
-                </TreeViewItem>
-                <TreeViewItem label="Testing2"></TreeViewItem>
-                <TreeViewItem label="Testing3"></TreeViewItem>
-            </TreeView>
-            <br />
-            <br />
-            <br />
-            {/* <TreeView treeData={treeData} /> */}
+            <TreeView treeData={treeData}/>
         </>
     );
 };

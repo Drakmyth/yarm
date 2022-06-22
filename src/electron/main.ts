@@ -9,11 +9,11 @@ interface HotKeyDefinition {
     ctrl: boolean;
     shift: boolean;
     alt: boolean;
-    handler: (win: BrowserWindow) => void
+    handler: (win: BrowserWindow) => void;
 }
 
 const hotkeys: Record<string, HotKeyDefinition[]> = {
-    "N": [
+    N: [
         {
             ctrl: true,
             shift: false,
@@ -21,7 +21,7 @@ const hotkeys: Record<string, HotKeyDefinition[]> = {
             handler: (win: BrowserWindow) => console.log("New...")
         }
     ],
-    "O": [
+    O: [
         {
             ctrl: true,
             shift: false,
@@ -29,7 +29,7 @@ const hotkeys: Record<string, HotKeyDefinition[]> = {
             handler: (win: BrowserWindow) => console.log("Open...")
         }
     ],
-    "W": [
+    W: [
         {
             ctrl: true,
             shift: false,
@@ -37,7 +37,7 @@ const hotkeys: Record<string, HotKeyDefinition[]> = {
             handler: (win: BrowserWindow) => console.log("Close")
         }
     ],
-    "S": [
+    S: [
         {
             ctrl: true,
             shift: false,
@@ -51,7 +51,7 @@ const hotkeys: Record<string, HotKeyDefinition[]> = {
             handler: (win: BrowserWindow) => console.log("Save As...")
         }
     ],
-    "Q": [
+    Q: [
         {
             ctrl: true,
             shift: false,
@@ -79,11 +79,7 @@ const openWindow = (): void => {
     window.webContents.on("before-input-event", (event, input) => {
         const hkDefs = hotkeys[input.key.toUpperCase()] || [];
         for (let hk of hkDefs) {
-            if (
-                hk.ctrl === input.control &&
-                hk.shift === input.shift &&
-                hk.alt === input.alt
-            ) {
+            if (hk.ctrl === input.control && hk.shift === input.shift && hk.alt === input.alt) {
                 hk.handler(window);
                 event.preventDefault();
             }
@@ -91,14 +87,16 @@ const openWindow = (): void => {
     });
 
     ipcMain.on("exit", () => {
+        console.log("Exit");
         window.close();
     });
 
     ipcMain.handle("openDatFile", async () => {
-        const dialogReturn = await dialog.showOpenDialog(window)
+        console.log("Open DAT File");
+        const dialogReturn = await dialog.showOpenDialog(window);
         const datData = await parseDat(dialogReturn.filePaths[0]);
         return datData;
-    })
+    });
 
     window.webContents.openDevTools();
 };
