@@ -1,7 +1,8 @@
-import { faAngleDown, faAngleRight } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
+import { useVirtual } from "@tanstack/react-virtual";
 import "./TreeView.css";
+import { TreeViewItem } from "../TreeViewItem/TreeViewItem";
+import { TreeRenderNode } from "./TreeRenderNode";
 
 class TreeViewOptionalProps {}
 
@@ -9,103 +10,161 @@ interface TreeViewProps extends TreeViewOptionalProps {
     treeData: TreeNode[];
 }
 
-interface TreeNodeState {
-    id: string;
-    label: string;
-    expanded: boolean;
-    selected: boolean;
-    indentation: number;
-    children: string[];
-}
-
 export interface TreeNode {
     label: string;
     children?: TreeNode[];
+}
+
+interface EnhancedTreeNode {
+    id: string;
+    label: string;
+    indentation: number;
+    children: EnhancedTreeNode[];
 }
 
 const buildId = (root: string, index: number) => {
     return [root, `${index}`].filter(Boolean).join("-");
 };
 
-const initTreeState = (nodes: TreeNode[], indentLevel: number = 0, key: string = ""): Map<string, TreeNodeState> => {
-    if (nodes.length <= 0) return new Map();
+const enhanceDataTree = (
+    dataTree: TreeNode[] | undefined,
+    indentLevel: number = 0,
+    key: string = ""
+): EnhancedTreeNode[] => {
+    if (!dataTree || dataTree.length <= 0) return [];
 
-    const nodeStates = new Map<string, TreeNodeState>();
+    const enhancedNodes: EnhancedTreeNode[] = [];
 
-    nodes.forEach((n, i) => {
+    dataTree.forEach((node, i) => {
         const id = buildId(key, i);
-        const nodeState = {
+        const eNode: EnhancedTreeNode = {
             id: id,
-            label: n.label,
-            children: n.children ? n.children.map((_, ci) => buildId(id, ci)) : [],
-            indentation: indentLevel,
-            selected: false,
-            expanded: n.children ? n.children.length > 0 : false
+            label: node.label,
+            children: enhanceDataTree(node.children, indentLevel + 50, id),
+            indentation: indentLevel
         };
-        nodeStates.set(id, nodeState);
 
-        const children = initTreeState(n.children || [], indentLevel + 50, id);
-        children.forEach((c) => nodeStates.set(c.id, c));
+        enhancedNodes.push(eNode);
     });
 
-    return nodeStates;
+    return enhancedNodes;
+};
+
+const getNodesToRender = (dataTree: EnhancedTreeNode[], expandedIds: Set<string>): TreeRenderNode[] => {
+    const renderNodes: TreeRenderNode[] = [];
+
+    for (let node of dataTree) {
+        const isExpanded = node.children.length > 0 ? expandedIds.has(node.id) : null;
+
+        renderNodes.push({
+            id: node.id,
+            label: node.label,
+            indentation: node.indentation,
+            expanded: isExpanded
+        });
+
+        if (isExpanded) {
+            renderNodes.push(...getNodesToRender(node.children, expandedIds));
+        }
+    }
+
+    return renderNodes;
 };
 
 export const TreeView = (p: TreeViewProps) => {
-    const props = { ...new TreeViewOptionalProps(), ...p };
+    const { treeData } = { ...new TreeViewOptionalProps(), ...p };
 
-    const [treeState, setTreeState] = useState<Map<string, TreeNodeState>>(initTreeState(props.treeData));
-    useEffect(() => setTreeState(initTreeState(props.treeData)), [props.treeData]);
+    const nodes = enhanceDataTree(treeData);
+
+    const [selectedId, setSelectedId] = useState<string>("");
+    const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
+
+    const renderNodes = getNodesToRender(nodes, expandedIds);
+
+    const treeViewRef = useRef(null);
+    const rowVirtualizer = useVirtual({
+        size: renderNodes.length,
+        parentRef: treeViewRef,
+        estimateSize: useCallback(() => 35, []),
+        overscan: 5
+    });
 
     const onAnchorClick = (id: string) => {
-        if (!treeState.has(id)) return;
+        const updatedIds = new Set(expandedIds);
+        if (updatedIds.has(id)) {
+            updatedIds.delete(id);
+        } else {
+            updatedIds.add(id);
+        }
 
-        console.log(id);
-        const prevState = {...(treeState.get(id) as TreeNodeState)};
-        prevState.expanded = !prevState.expanded;
-
-        setTreeState(prev => {
-            return new Map([...prev]).set(id, prevState)
-        })
-    };
-    
-    const renderNodes = (rootIds: string[], state: Map<string, TreeNodeState>): JSX.Element[] => {
-        const retVal = rootIds
-            .filter((id) => state.has(id))
-            .flatMap((id) => {
-                const s = state.get(id) as TreeNodeState;
-    
-                const classes = [
-                    "tree-view-item",
-                    s.selected ? "tree-view-item--selected" : "",
-                    s.expanded ? "tree-view-item--expanded" : ""
-                ]
-                    .filter(Boolean)
-                    .join(" ");
-    
-                const hasChildren = s.children.length > 0;
-    
-                return [
-                    <li className={classes} key={s.id} style={{ paddingLeft: s.indentation }}>
-                        {hasChildren && (
-                            <span onClick={() => onAnchorClick(s.id)}>
-                                <FontAwesomeIcon icon={s.expanded ? faAngleDown : faAngleRight} />
-                            </span>
-                        )}
-                        <span>{`${s.label} (${s.id})`}</span>
-                    </li>
-                ].concat(hasChildren && s.expanded ? renderNodes(s.children, state) : []);
-            });
-        
-            return retVal;
+        setExpandedIds(updatedIds);
     };
 
     return (
-        <ul className="tree-view">
-            {renderNodes(
-                props.treeData.map((_, i) => `${i}`),
-                treeState
-            )}
-        </ul>
+        <div
+            ref={treeViewRef}
+            style={{
+                height: "100%",
+                width: "100%",
+                overflow: "auto"
+            }}
+        >
+            <ul
+                className="tree-view"
+                style={{
+                    height: `${rowVirtualizer.totalSize}px`,
+                    width: "100%",
+                    position: "relative"
+                }}
+            >
+                {rowVirtualizer.virtualItems.map((vi) => (
+                    <TreeViewItem
+                        renderNode={renderNodes[vi.index]}
+                        onAnchorClicked={onAnchorClick}
+                        key={renderNodes[vi.index].id}
+                        style={{
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            width: "100%",
+                            transform: `translateY(${vi.start}px)`,
+                            overflow: "hidden"
+                        }}
+                    />
+                ))}
+            </ul>
+        </div>
     );
+
+    // return (
+    //     <div
+    //         ref={treeViewRef}
+    //         className="tree-view"
+    //         style={{
+    //             height: 300,
+    //             width: 300,
+    //             overflowY: "auto"
+    //         }}
+    //     >
+    //         <ul
+    //             style={{
+    //                 height: rowVirtualizer.totalSize,
+    //                 width: "100%",
+    //                 position: "relative"
+    //             }}
+    //         >
+    //             {rowVirtualizer.virtualItems.map((v, i) => (
+    //                 <TreeViewItem nodeState={nodeMap.} />
+    //                 <li style={{
+    //                     position: "absolute",
+    //                     top: 0,
+    //                     left: 0,
+    //                     width: "100%",
+    //                     height: v.size,
+    //                     transform: `translateY(${v.start}px)`
+    //                 }}></li>
+    //             ))}
+    //         </ul>
+    //     </div>
+    // );
 };

@@ -145,24 +145,6 @@ const App = () => {
         console.log("Persistance complete");
     };
 
-    // const treeData: TreeNode[] = [
-    //     { label: "Testing0" },
-    //     {
-    //         label: "Testing1",
-    //         children: [
-    //             { label: "Testing1-0" },
-    //             {
-    //                 label: "Testing1-1",
-    //                 children: [{ label: "Testing1-1-0" }, { label: "Testing1-1-1" }]
-    //             },
-    //             { label: "Testing1-2" },
-    //             { label: "Testing1-3" }
-    //         ]
-    //     },
-    //     { label: "Testing2" },
-    //     { label: "Testing3" }
-    // ];
-
     return (
         <>
             <button onClick={onOpenDatClick}>Open DAT</button>
