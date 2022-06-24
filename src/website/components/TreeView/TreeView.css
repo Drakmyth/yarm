@@ -2,3 +2,26 @@
     list-style: none;
     padding-left: 0;
 }
+
+.tree-view-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+}
+
+.tree-view-item > span {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.tree-view-item-anchor {
+    padding: 4px;
+}
+
+.tree-view-item-anchor > svg {
+    width: 14px;
+    height: 14px;
+}

@@ -33,7 +33,7 @@ export const TreeViewItem = (p: TreeViewItemProps) => {
             style={{ ...props.style, paddingLeft: props.renderNode.indentation }}
         >
             {hasChildren && (
-                <span onClick={() => props.onAnchorClicked(props.renderNode.id)}>
+                <span onClick={() => props.onAnchorClicked(props.renderNode.id)} className="tree-view-item-anchor">
                     <FontAwesomeIcon icon={props.renderNode.expanded ? faAngleDown : faAngleRight} />
                 </span>
             )}

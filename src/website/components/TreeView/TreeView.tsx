@@ -123,12 +123,7 @@ export const TreeView = (p: TreeViewProps) => {
                         onAnchorClicked={onAnchorClick}
                         key={renderNodes[vi.index].id}
                         style={{
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
-                            width: "100%",
-                            transform: `translateY(${vi.start}px)`,
-                            overflow: "hidden"
+                            transform: `translateY(${vi.start}px)`
                         }}
                     />
                 ))}
